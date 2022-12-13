@@ -1,0 +1,23 @@
+@media screen and (max-width: 730px) {
+  .login__box {    
+    height: 580px;
+    display: flex;
+    flex-direction: column-reverse;  
+  }
+
+  .login__box .login__form {
+    width: 100%;
+    height: 70%;
+  }
+
+  .login__box .placeholder__img {
+    width: 100%;
+    height: 30%;
+
+    border-radius: 8px 8px 0 0;
+  }
+
+  .login__box  .footer  {
+    margin-top: 30px;
+  }
+}

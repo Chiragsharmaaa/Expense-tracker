@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
+/*google fonts*/
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.5;
+
+  height: 100vh;
+  background: #7b9e87;
+  color: #212121;
+
+  position: relative;
+}
+
+h3 {line-height: 1.1;}
+
+/*ends base*/
+
+input {
+  outline: none;
+  border: none;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  color: #0370EA;
+}
+
+/*ends basic*/
+
+.signup__box {
+  width: 700px;
+  max-width: 85%;
+  height: 500px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 5px #528262, 0 0 15px #7fa98d;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;  
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.signup__box .signup__form {
+  width: 60%;
+  padding: 5%;
+}
+
+.signup__box .top {
+  margin-bottom: 45px;
+}
+
+.signup__box  .top h3 {
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  color: #ccc;
+}
+
+.signup__box  .top h3 span {
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #212121;
+}
+
+.signup__box  .top p {
+  font-size: .95em;
+  color: #333;
+}
+
+.signup__box  form i {
+  width: 10%;
+  font-size: 1.2em;
+  color: #ccc;
+}
+
+.signup__box  form .mail input,
+.signup__box  form .pass input {
+  width: 88%;
+  max-width: 100%;
+  padding: 10px 5px;
+  color: #111;
+  border-bottom: 1px solid #212121;
+}
+
+.signup__box  form .mail input {
+  margin-bottom: 15px;
+}
+
+.signup__box  form .action {
+  text-align: right;
+  margin-top: 25px;
+}
+
+.signup__box  form input[type="submit"] {
+  padding: 15px 40px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #90CBF5;
+  color: #fff;
+  font-weight: bold;
+  transition: .3s background;
+}
+
+.signup__box  form input[type="submit"]:hover {
+  background-color: #0370EA;
+}
+
+.signup__box  .footer  {
+  margin-top: 45px;
+}
+
+.signup__box  .footer a:hover  {
+  text-decoration: underline;
+}
+
+/*ends form style*/
+
+.signup__box .placeholder__img {
+  width: 40%;
+  height: 100%;
+  background-color: #55a262;
+  background-image: url(../img/background.jpg);
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: cover;
+
+  border-radius: 0 8px 8px 0;
+}
