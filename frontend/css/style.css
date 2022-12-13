@@ -37,7 +37,7 @@ a {
 
 /*ends basic*/
 
-.signup__box {
+.container__box {
   width: 700px;
   max-width: 85%;
   height: 500px;
@@ -57,40 +57,40 @@ a {
   transform: translate(-50%, -50%);
 }
 
-.signup__box .signup__form {
+.container__box .container__form {
   width: 60%;
   padding: 5%;
 }
 
-.signup__box .top {
+.container__box .top {
   margin-bottom: 45px;
 }
 
-.signup__box  .top h3 {
+.container__box  .top h3 {
   font-size: 1.5em;
   margin-bottom: 15px;
   color: #ccc;
 }
 
-.signup__box  .top h3 span {
+.container__box  .top h3 span {
   text-transform: uppercase;
   font-weight: 800;
   color: #212121;
 }
 
-.signup__box  .top p {
+.container__box  .top p {
   font-size: .95em;
   color: #333;
 }
 
-.signup__box  form i {
+.container__box  form i {
   width: 10%;
   font-size: 1.2em;
   color: #ccc;
 }
 
-.signup__box  form .mail input,
-.signup__box  form .pass input {
+.container__box  form .mail input,
+.container__box  form .pass input {
   width: 88%;
   max-width: 100%;
   padding: 10px 5px;
@@ -98,16 +98,16 @@ a {
   border-bottom: 1px solid #212121;
 }
 
-.signup__box  form .mail input {
+.container__box  form .mail input {
   margin-bottom: 15px;
 }
 
-.signup__box  form .action {
+.container__box  form .action {
   text-align: right;
   margin-top: 25px;
 }
 
-.signup__box  form input[type="submit"] {
+.container__box  form input[type="submit"] {
   padding: 15px 40px;
   border-radius: 5px;
   cursor: pointer;
@@ -117,21 +117,21 @@ a {
   transition: .3s background;
 }
 
-.signup__box  form input[type="submit"]:hover {
+.container__box  form input[type="submit"]:hover {
   background-color: #0370EA;
 }
 
-.signup__box  .footer  {
+.container__box  .footer  {
   margin-top: 45px;
 }
 
-.signup__box  .footer a:hover  {
+.container__box  .footer a:hover  {
   text-decoration: underline;
 }
 
 /*ends form style*/
 
-.signup__box .placeholder__img {
+.container__box .placeholder__img {
   width: 40%;
   height: 100%;
   background-color: #55a262;
