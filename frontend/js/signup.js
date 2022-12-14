@@ -22,7 +22,8 @@ async function signup(e){
         };
 
     } catch (error) {
-        document.body.innerHTML = `<div style="color:red;text-align:center">${error}</div>`
+        window.alert('Signup Failed!')
+        console.log(error);
     };
     
 };
