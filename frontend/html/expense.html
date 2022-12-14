@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add your Expenses</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="../css/mquery.css">
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
+
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+</head>
+
+<body>
+
+  <section>
+    <div class="container__box">
+      <div class="container__form">
+        <div class="top">
+          <h3><span>Add</span> Expenses!</h3>
+          <!-- <p>Welcome back! Log in to your account to manage and keep track of your expenses!</p> -->
+        </div>
+
+        <form action="submit" method="post" id="container-form">
+          <div class="mail">
+            <input type="number" name="amount" id="email" placeholder="Amount" required>
+          </div>
+
+          <div class="mail">
+            <input type="text" name="description" id="email" placeholder="Description" required>
+          </div>
+          <br>
+          <div class="mail form-group text-xl-left btn-block">
+            <select id="pass" name="category" id="category" required>
+              <option value="Choose a category:">Choose a category:</option>
+              <option value="EMI">EMI</option>
+              <option value="RENT">RENT</option>
+              <option value="FOOD">FOOD</option>
+              <option value="MOVIE">MOVIE</option>
+              <option value="PETROL">PETROL</option>
+            </select>
+          </div>
+
+          <div class="action">
+            <input type="submit" name="add" class="btn" value="ADD">
+          </div>
+        </form>
+
+        <div class="footer">
+          <a href="../html/signup.html">Logout</a>
+        </div>
+      </div>
+
+      <div class="placeholder__img">
+
+      </div>
+
+      <div id="expense-div">
+
+      </div>
+
+    </div>
+  </section>
+  <script src="../js/expense.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
+</body>
+
+</html>

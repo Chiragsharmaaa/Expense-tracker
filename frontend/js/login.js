@@ -13,8 +13,10 @@ async function login(e) {
 
         const response = await axios.post('http://localhost:3000/user/login', loginDetails)
         if(response.status == 200) {
-            console.log('success! user logged in!');
+            alert('Logged in Successfully!');
+            window.location.href = '../html/expense.html';
         } else {
+            e.target.password.value = '';
             console.log('failure! check your credentials!')
         }
     } catch (error) {
