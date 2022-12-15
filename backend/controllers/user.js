@@ -1,6 +1,10 @@
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+
+function generateAccessToken(id) {
+    return jwt.sign({ userId:id }, 'mysecretkey');
+};
 
 exports.postSignup = async (req, res, next) => {
     try {
@@ -22,6 +26,7 @@ exports.postSignup = async (req, res, next) => {
         res.status(500).json(err);
     };
 };
+
 exports.postLogin = async (req, res, next) => {
     try {
 
@@ -29,27 +34,20 @@ exports.postLogin = async (req, res, next) => {
 
         if (!email || !password) {
             return res.status(400).json({ message: 'Enter all fields' })
-        }
-
+        };
         const user = await User.findAll({ where: { email } })
-
         if (user.length === 0) {
             return res.status(404).json({ message: 'User not found' })
-        }
+        };
         const existingUser = user[0];
 
         bcrypt.compare(password, existingUser.password, (err, result) => {
-            if (err) {
-                return new Error('Something went wrong')
+            if(err) {
+                return res.status(401).json({message:'User not authorized!'});
             };
-            if (result === true) {
-                return res.status(200).json({ success: true, message: 'User logged in successfully!' });
-            } else {
-                return res.status(400).json({ success: false, message: 'Password is incorrect' })
-            }
+            return res.status(200).json({message:'Successfully Logged-in!', token:generateAccessToken(existingUser.id)});
         });
-
     } catch (err) {
-        return res.status(500).json({ message: err, success: false })
-    }
-}
+        return res.status(500).json({ message: err, success: false });
+    };
+};

@@ -14,6 +14,7 @@ async function login(e) {
         const response = await axios.post('http://localhost:3000/user/login', loginDetails)
         if(response.status == 200) {
             alert('Logged in Successfully!');
+            localStorage.setItem('token', response.data.token);
             window.location.href = '../html/expense.html';
         } else {
             e.target.password.value = '';
@@ -24,3 +25,4 @@ async function login(e) {
         console.log(error);
     };
 };
+
