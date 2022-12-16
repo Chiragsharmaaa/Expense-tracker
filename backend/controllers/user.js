@@ -1,9 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
 const User = require('../models/user');
 
 function generateAccessToken(id) {
-    return jwt.sign({ userId:id }, 'mysecretkey');
+    return jwt.sign({ userId:id }, process.env.JWT_SECRET);
 };
 
 exports.postSignup = async (req, res, next) => {
@@ -18,7 +19,7 @@ exports.postSignup = async (req, res, next) => {
 
         bcrypt.hash(password, saltRounds, async (err, hash) => {
             console.log(err)
-            await User.create({ name, email, password: hash });
+            await User.create({ name, email, password: hash, ispremiumuser: false });
             return res.status(201).json({ message: 'user created!' });
         });
 
@@ -45,7 +46,7 @@ exports.postLogin = async (req, res, next) => {
             if(err) {
                 return res.status(401).json({message:'User not authorized!'});
             };
-            return res.status(200).json({message:'Successfully Logged-in!', token:generateAccessToken(existingUser.id)});
+            return res.status(200).json({message:'Successfully Logged-in!', token:generateAccessToken(existingUser.id), isPremium:existingUser.ispremiumuser});
         });
     } catch (err) {
         return res.status(500).json({ message: err, success: false });

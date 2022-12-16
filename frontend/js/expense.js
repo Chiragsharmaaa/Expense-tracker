@@ -2,17 +2,17 @@ const form = document.getElementById('container-form');
 const ExpenseDiv = document.getElementById('expense-div');
 const logoutBtn = document.querySelector('#logout');
 window.addEventListener('DOMContentLoaded', screenLoader);
-
+let token = localStorage.getItem('token');
 logoutBtn.addEventListener('click', (e) => {
     e.preventDefault()
     localStorage.removeItem('token');
-    alert('Please login to Continue!');
+    alert('Logged out!');
     window.location.href = '../html/login.html';
 });
 
 async function screenLoader(e) {
     e.preventDefault();
-    let token = localStorage.getItem('token');
+   
 
     try {
         let response = await axios.get('http://localhost:3000/expense/', {headers: {'Authorization': token}});
@@ -77,4 +77,51 @@ async function removeExpense(id) {
 function removeFromScreen(id) {
     let childElement = document.getElementById(id);
     ExpenseDiv.removeChild(childElement);
+};
+
+document.getElementById('premiumbtn').onclick = async function(e) {
+    var x = true;
+    let token = localStorage.getItem('token');
+    try{
+        const response = await axios.post('http://localhost:3000/payment/premiummembership', x, {headers:{'Authorization': token}});
+        checkout(response.data);
+    } catch(err) {
+        console.log(err)
+    };
+};
+
+function checkout(order) {
+    let token = localStorage.getItem('token');
+    var options = {
+        "key": order.key_id,
+        "amount": order.order.amount,
+        "currency":"INR",
+        "order_id": order.order.id,
+        "handler": function (response) {
+            alert('Payment Successful');
+            axios.post('http://localhost:3000/payment/updatestatus', response, {headers:{'Authorization': token}})
+            .then(res => {
+                alert('You are a premium user now!');
+                localStorage.setItem('user' , 'true')
+            }).catch(err => console.log(err));
+        },
+        "prefill": {
+            "email":"chirag@gmail.com",
+            "contact":"7067445600"
+        }
+    };
+
+    var rzp = new Razorpay(options);
+
+    rzp.on('payment.failed', function(res) {
+        alert(res.error.description);
+    });
+    rzp.open();
+};
+
+document.getElementById('logout').onclick = function(e) {
+    e.preventDefault();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '../html/login.html'
 };
