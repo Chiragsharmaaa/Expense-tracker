@@ -134,7 +134,7 @@ function checkout(order) {
                 .then(res => {
                     alert('You are a premium user now!');
                     document.getElementById('premiumbtn').style.visibility = 'hidden';
-                    document.getElementById('messagepremium').innerHTML = 'You are a Premium User!';
+                    document.getElementById('messageprem').innerHTML = 'You are a Premium User!';
                     localStorage.setItem('user', 'true')
                     // getPremiumLeaderBoard()
                 }).catch(err => console.log(err));
