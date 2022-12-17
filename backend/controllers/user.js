@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config()
 const User = require('../models/user');
 
-function generateAccessToken(id) {
-    return jwt.sign({ userId:id }, process.env.JWT_SECRET);
+function generateAccessToken(id, name, ispremiumuser) {
+    return jwt.sign({ userId:id,name:name, ispremiumuser }, process.env.JWT_SECRET);
 };
 
 exports.postSignup = async (req, res, next) => {
@@ -41,12 +41,12 @@ exports.postLogin = async (req, res, next) => {
             return res.status(404).json({ message: 'User not found' })
         };
         const existingUser = user[0];
-
+        console.log(existingUser)
         bcrypt.compare(password, existingUser.password, (err, result) => {
             if(err) {
                 return res.status(401).json({message:'User not authorized!'});
             };
-            return res.status(200).json({message:'Successfully Logged-in!', token:generateAccessToken(existingUser.id), isPremium:existingUser.ispremiumuser});
+            return res.status(200).json({message:'Successfully Logged-in!', token:generateAccessToken(existingUser.id, existingUser.name), isPremium:existingUser.ispremiumuser});
         });
     } catch (err) {
         return res.status(500).json({ message: err, success: false });

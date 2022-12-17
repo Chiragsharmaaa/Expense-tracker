@@ -42,6 +42,7 @@ a {
   max-width: 85%;
   height: 500px;
   margin: 0 auto;
+  margin-bottom: 10%;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 0 5px #528262, 0 0 15px #7fa98d;
@@ -129,9 +130,8 @@ a {
   text-decoration: underline;
 }
 
-/*ends form style*/
-
 .container__box .placeholder__img {
+  
   width: 40%;
   height: 100%;
   background-color: #55a262;
@@ -180,4 +180,10 @@ a {
 
 .container__box  form input[type="submit"]:hover {
   background-color: #0370EA;
+}
+
+.toast {
+  text-align: center;
+  margin-left: 40%;
+
 }
