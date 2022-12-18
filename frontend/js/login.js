@@ -13,7 +13,6 @@ async function login(e) {
 
         const response = await axios.post('http://localhost:3000/user/login', loginDetails)
         if(response.status == 200) {
-            console.log(response.data)
             alert('Logged in Successfully!');
             localStorage.setItem('user', response.data.isPremium);
             localStorage.setItem('token', response.data.token);

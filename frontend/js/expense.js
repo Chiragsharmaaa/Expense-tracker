@@ -1,7 +1,7 @@
 const form = document.getElementById('container-form');
 const ExpenseDiv = document.getElementById('expense-div');
 const logoutBtn = document.querySelector('#logout');
-const leaderboarddiv = document.getElementById('list');
+const leaderboarddiv = document.getElementById('table');
 window.addEventListener('DOMContentLoaded', screenLoader);
 let token = localStorage.getItem('token');
 
@@ -12,7 +12,7 @@ logoutBtn.addEventListener('click', (e) => {
     window.location.href = '../html/login.html';
 });
 
-document.getElementById('right').style.visibility='hidden'
+document.getElementById('table-box').style.visibility='hidden'
 
 async function screenLoader(e) {
     e.preventDefault();
@@ -79,7 +79,12 @@ window.addEventListener('DOMContentLoaded', () => {
     const isPremiumUser = decodedToken.ispremiumuser;
     if(isPremiumUser) {
         document.getElementById('premiumbtn').style.visibility = 'hidden';
-        document.getElementById('messagepremium').innerHTML = 'You are a Premium User!';
+        document.getElementById('showleaderboardbtn').style.visibility = 'visible';
+        document.getElementById('messageprem').innerHTML = 'You are a Premium User!';
+    } else 
+    {
+        document.getElementById('showleaderboardbtn').style.visibility = 'hidden';
+
     }
 })
 
@@ -111,7 +116,7 @@ function removeFromScreen(id) {
 };
 
 document.getElementById('premiumbtn').onclick = async function (e) {
-    var x = true;
+    var x = false;
     let token = localStorage.getItem('token');
     try {
         const response = await axios.post('http://localhost:3000/payment/premiummembership', x, { headers: { 'Authorization': token } });
@@ -131,12 +136,13 @@ function checkout(order) {
         "handler": function (response) {
             alert('Payment Successful');
             axios.post('http://localhost:3000/payment/updatestatus', response, { headers: { 'Authorization': token } })
-                .then(res => {
+                .then(response => {
                     alert('You are a premium user now!');
                     document.getElementById('premiumbtn').style.visibility = 'hidden';
+                    document.getElementById('showleaderboardbtn').style.visibility = 'visible';
                     document.getElementById('messageprem').innerHTML = 'You are a Premium User!';
-                    localStorage.setItem('user', 'true')
-                    // getPremiumLeaderBoard()
+                    localStorage.setItem('user', response.data.isPremium);
+                    localStorage.setItem('token', response.data.token);
                 }).catch(err => console.log(err));
         },
         "prefill": {
@@ -163,38 +169,26 @@ document.getElementById('showleaderboardbtn').onclick = function (e) {
     e.preventDefault();
     getPremiumLeaderBoard();
     leaderboarddiv.innerHTML = ''
-    document.getElementById('right').style.visibility='visible'
+    document.getElementById('table-box').style.visibility='visible';
 };
 
 async function getPremiumLeaderBoard() {
     try {
         const response = await axios.get('http://localhost:3000/premium/premiumleaderboard', { headers: { 'Authorization': token } });
-        console.log(response)
-        if (response.data.success) {
-            if (response.data.data.length > 0) {
-                response.data.data.sort((a, b) => {
-                    return a.totalExpense - b.totalExpense;
-                });
-                response.data.data.map((user, id) => {
-                    showLeaderboard(user, id);
-                });
-            };
-        };
+        response.data.data.map((user) => {
+            showLeaderboard(user);
+        });
     } catch (err) {
         console.log(err);
     };
 };
 
-function showLeaderboard(user, id) {
-    let child = `<li class="list-group-item">
-    <p class="sno">${id + 1}  -  ${user.user.name} -  ${user.totalExpense}</p>
-
-    </li>`
+function showLeaderboard(user) {
+    const child = `<tr>
+    <th scope="row">${user.id + 1}</th>
+    <td>${user.name}</td>
+    <td>₹ ${user.totalExpense}</td>
+  </tr>`
 
     leaderboarddiv.innerHTML += child;
 };
-
-function openUserExpenses(user) {
-    localStorage.setItem('thisUser', user);
-    window.location.href = '../html/leaderboard.html'
-}

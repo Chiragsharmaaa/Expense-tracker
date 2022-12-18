@@ -4,7 +4,7 @@ require('dotenv').config()
 const User = require('../models/user');
 
 function generateAccessToken(id, name, ispremiumuser) {
-    return jwt.sign({ userId:id,name:name, ispremiumuser }, process.env.JWT_SECRET);
+    return jwt.sign({ userId:id,name:name, ispremiumuser:ispremiumuser }, process.env.JWT_SECRET);
 };
 
 exports.postSignup = async (req, res, next) => {
@@ -18,7 +18,6 @@ exports.postSignup = async (req, res, next) => {
         const saltRounds = 10;
 
         bcrypt.hash(password, saltRounds, async (err, hash) => {
-            console.log(err)
             await User.create({ name, email, password: hash, ispremiumuser: false });
             return res.status(201).json({ message: 'user created!' });
         });
@@ -41,12 +40,11 @@ exports.postLogin = async (req, res, next) => {
             return res.status(404).json({ message: 'User not found' })
         };
         const existingUser = user[0];
-        console.log(existingUser)
         bcrypt.compare(password, existingUser.password, (err, result) => {
             if(err) {
                 return res.status(401).json({message:'User not authorized!'});
             };
-            return res.status(200).json({message:'Successfully Logged-in!', token:generateAccessToken(existingUser.id, existingUser.name), isPremium:existingUser.ispremiumuser});
+            return res.status(200).json({message:'Successfully Logged-in!', token:generateAccessToken(existingUser.id, existingUser.name, existingUser.ispremiumuser), isPremium: existingUser.ispremiumuser});
         });
     } catch (err) {
         return res.status(500).json({ message: err, success: false });
