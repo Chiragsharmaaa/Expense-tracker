@@ -1,7 +1,11 @@
+const resetBtn = document.getElementById('reset');
+resetBtn.addEventListener('submit', forgotpassword);
+
 function forgotpassword(e) {
     e.preventDefault();
     console.log(e.target.name);
     const form = new FormData(e.target);
+    console.log(form)
 
     const userDetails = {
         email: form.get("email"),
