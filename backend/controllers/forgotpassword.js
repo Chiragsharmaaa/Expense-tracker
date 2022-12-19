@@ -8,7 +8,7 @@ const Forgotpassword = require('../models/forgotpassword');
 
 exports.forgotpassword = async(req, res, next) => {
     try {
-        console.log(req.body)
+        console.log('req',req.body)
         const {email} = req.body;
         const user = await User.findOne({where:{email}});
 
@@ -26,12 +26,12 @@ exports.forgotpassword = async(req, res, next) => {
             to: email, // Change to your recipient
             from: 'chiragsharma250999@gmail.com', // Change to your verified sender
             subject: 'Sending with SendGrid is Fun',
-            text: 'and easy to do anywhere, even with Node.js',
+            text: 'Click on the link below to reset password',
             html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`,
         };
 
-        sgMail.send(msg).then(res => {
-            return res.status(response[0].statusCode).json({message: 'Link to reset password sent to your mail id', success: true});
+        sgMail.send(msg).then(response => {
+            return res.json({message: 'Link to reset password sent to your mail id', success: true});
         }).catch(err => {
             throw new Error(err);
         });
