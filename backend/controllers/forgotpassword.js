@@ -75,7 +75,9 @@ exports.updatepassword = async(req,res,next)=>{
 
     try {
         const resetpasswordrequest  = await Forgotpassword.findOne({where:{id}})
-        const user = await User.findOne({where:{id:resetpasswordrequest.id }})
+        console.log(resetpasswordrequest)
+        const user = await User.findOne({where:{id:resetpasswordrequest.userId }})
+        console.log(user)
         if(!user){
             return res.status(404).json({ error: 'No user Exists', success: false})
         }

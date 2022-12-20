@@ -17,9 +17,25 @@ exports.postAddExpense = async (req, res, next) => {
 };
 
 exports.getExpenses = async (req, res, next) => {
+    let page = req.params.pageno || 1;
+    let ITEMS_PER_PAGE = 2;
+    let totalItems;
     try {
-        let data = await req.user.getExpenses();
-        res.status(200).json(data);
+        let totalExpenses = await Expense.count({ where: { userId: req.user.id } });
+        totalItems = totalExpenses;
+
+        let data = await req.user.getExpenses({ offset: (page - 1) * ITEMS_PER_PAGE, limit: ITEMS_PER_PAGE });
+        res.status(200).json({
+            data,
+            info: {
+                currentPage: page,
+                hasNextPage: totalItems > page * ITEMS_PER_PAGE,
+                hasPreviousPage: page > 1,
+                nextPage: +page + 1,
+                previousPage: +page - 1,
+                lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
+            }
+        });
     } catch (err) {
         res.status(500).json({ message: 'unable to load expenses!' });
     };
@@ -70,28 +86,28 @@ exports.downloadExpense = async (req, res, next) => {
 
         const stringifyExpense = JSON.stringify(expenses);
         const fileName = `Expense${userId}/${new Date()}.txt`;
-        const fileURL =await S3Services.uploadtoS3(stringifyExpense, fileName);
+        const fileURL = await S3Services.uploadtoS3(stringifyExpense, fileName);
         console.log(fileURL)
         const downloadURLData = await req.user.createDownloadurl({
             fileName,
             fileUrl: fileURL
-            
+
         });
-        console.log('download',downloadURLData)
+        console.log('download', downloadURLData)
         res.status(200).json({ fileURL, downloadURLData, success: true });
     } catch (error) {
         res.status(500).json({ fileURL: '', success: false, err: error });
     };
 };
 
-exports.downloadAllURL = async(req, res, next) => {
+exports.downloadAllURL = async (req, res, next) => {
     try {
         let urls = await req.user.getDownloadurls();
-        if(!urls) {
-            res.status(404).json({ message:'no urls found!', success: false});
+        if (!urls) {
+            res.status(404).json({ message: 'no urls found!', success: false });
         };
-        res.status(200).json({urls, success: true})
+        res.status(200).json({ urls, success: true })
     } catch (error) {
-        res.status(500).json({error})
+        res.status(500).json({ error })
     }
 }
