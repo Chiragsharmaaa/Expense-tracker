@@ -192,3 +192,11 @@ function showLeaderboard(user) {
 
     leaderboarddiv.innerHTML += child;
 };
+
+document.getElementById('generatereport').onclick = function(e){
+    e.preventDefault()
+    let user = localStorage.getItem('user');
+    if(user == "true"){
+        window.location.href = '../html/report.html'
+    };
+};

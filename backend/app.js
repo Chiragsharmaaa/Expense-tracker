@@ -12,7 +12,8 @@ const forgotPasswordRoutes = require('./routes/forgotpassword');
 const User = require('./models/user');
 const Expense = require('./models/expense');
 const Forgotpassword = require('./models/forgotpassword');
-const Order =require('./models/order');
+const Order = require('./models/order');
+const DownloadUrl = require('./models/downloadurl');
 
 const app = express();
 
@@ -34,6 +35,9 @@ Order.belongsTo(User);
 
 User.hasMany(Forgotpassword);
 Forgotpassword.belongsTo(User);
+
+User.hasMany(DownloadUrl);
+DownloadUrl.belongsTo(User);
 
 const port = 3000;
 
