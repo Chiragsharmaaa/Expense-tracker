@@ -2,9 +2,12 @@ const form = document.getElementById('container-form');
 const ExpenseDiv = document.getElementById('expense-div');
 const logoutBtn = document.querySelector('#logout');
 const leaderboarddiv = document.getElementById('table');
-window.addEventListener('DOMContentLoaded', screenLoader);
 let token = localStorage.getItem('token');
 const pagination = document.getElementById('pagination');
+const perpage = document.getElementById('perpage');
+let itemsPerPage = Number(localStorage.getItem('itemsperpage')) ;
+
+window.addEventListener('DOMContentLoaded', screenLoader);
 
 form.addEventListener('submit', addExpense);
 
@@ -13,6 +16,14 @@ logoutBtn.addEventListener('click', (e) => {
     localStorage.removeItem('token');
     alert('Logged out!');
     window.location.href = '../html/login.html';
+});
+
+perpage.addEventListener('submit' , (e)=>{
+    e.preventDefault();
+    console.log((+e.target.itemsPerPage.value));
+    localStorage.setItem('itemsperpage' , +e.target.itemsPerPage.value )
+    itemsPerPage = localStorage.getItem('itemsperpage')
+    loadExpenses(1 , +e.target.itemsPerPage.value);
 });
 
 document.getElementById('table-box').style.visibility = 'hidden'
@@ -27,12 +38,12 @@ async function screenLoader(e) {
     };
 
     let page = 1;
-    loadExpenses(page);
+    loadExpenses(page, itemsPerPage);
 }
 
-async function loadExpenses(page) {
+async function loadExpenses(page, itemsPerPage) {
     try {
-        let response = await axios.get(`http://localhost:3000/expense/${page}`, { headers: { 'Authorization': token } });
+        let response = await axios.post(`http://localhost:3000/expense/${page}`,{itempsperpage:itemsPerPage}, { headers: { 'Authorization': token } });
         displayExpenses(response.data.data);
         showPagination(response.data.info)
     } catch (err) {
@@ -50,21 +61,21 @@ function showPagination({ currentPage, hasNextPage, hasPreviousPage, nextPage, p
         const button1 = document.createElement('a');
         const li = document.createElement('li');
         li.classList.add('page-item');
-        button1.classList.add('page-link')
+        button1.classList.add('page-link');
         button1.innerHTML = previousPage;
-        button1.addEventListener('click', () => loadExpenses(previousPage))
+        button1.addEventListener('click', () => loadExpenses(previousPage, itemsPerPage));
         li.appendChild(button1)
         pagination.appendChild(li)
     }
     const li2 = document.createElement('li');
     li2.classList.add('page-item');
     const button2 = document.createElement('a');
-    button2.classList.add('active')
-    button2.classList.add('page-link')
+    button2.classList.add('active');
+    button2.classList.add('page-link');
     button2.innerHTML = currentPage;
-    button2.addEventListener('click', () => loadExpenses(currentPage))
-    li2.appendChild(button2)
-    pagination.appendChild(li2)
+    button2.addEventListener('click', () => loadExpenses(currentPage, itemsPerPage));
+    li2.appendChild(button2);
+    pagination.appendChild(li2);
 
     if (hasNextPage) {
         const li3 = document.createElement('li');
@@ -72,20 +83,20 @@ function showPagination({ currentPage, hasNextPage, hasPreviousPage, nextPage, p
         const button3 = document.createElement('a');
         button3.classList.add('page-link');
         button3.innerHTML = nextPage;
-        button3.addEventListener('click', () => loadExpenses(nextPage))
-        li3.appendChild(button3)
-        pagination.appendChild(li3)
+        button3.addEventListener('click', () => loadExpenses(nextPage, itemsPerPage));
+        li3.appendChild(button3);
+        pagination.appendChild(li3);
     }
 
     if (currentPage != lastPage && nextPage != lastPage) {
         const li4 = document.createElement('li');
         li4.classList.add('page-item');
         const button4 = document.createElement('a');
-        button4.classList.add('page-link')
+        button4.classList.add('page-link');
         button4.innerHTML = lastPage;
-        button4.addEventListener('click', () => loadExpenses(lastPage))
-        li4.appendChild(button4)
-        pagination.appendChild(li4)
+        button4.addEventListener('click', () => loadExpenses(lastPage, itemsPerPage));
+        li4.appendChild(button4);
+        pagination.appendChild(li4);
     }
 }
 

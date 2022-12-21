@@ -5,7 +5,7 @@ const expenseController = require('../controllers/expense');
 const middleware = require('../middleware/auth');
 
 router.post('/add-expense', middleware.authentication, expenseController.postAddExpense);
-router.get('/:pageno', middleware.authentication, expenseController.getExpenses);
+router.post('/:pageno', middleware.authentication, expenseController.getExpenses);
 router.delete('/delete-expense/:id', middleware.authentication, expenseController.deleteExpense);
 router.get('/download', middleware.authentication, expenseController.downloadExpense);
 router.get('/getalldownloadurl', middleware.authentication, expenseController.downloadAllURL);
