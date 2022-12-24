@@ -1,8 +1,8 @@
 @media screen and (max-width: 730px) {
-  .container__box {    
+  .container__box {
     height: 580px;
     display: flex;
-    flex-direction: column-reverse;  
+    flex-direction: column-reverse;
   }
 
   .container__box .container__form {
@@ -17,7 +17,7 @@
     border-radius: 8px 8px 0 0;
   }
 
-  .container__box  .footer  {
+  .container__box .footer {
     margin-top: 30px;
   }
 }
