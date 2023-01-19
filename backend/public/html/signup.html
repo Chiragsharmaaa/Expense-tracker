@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign up to our website</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mquery.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <section>
+      <div class="container__box">
+        <div class="container__form">
+          <div class="top" style="margin-bottom: 0px">
+            <h3>Welcome to <span>Expense Tracker</span></h3>
+            <p>
+              Welcome! Sign up to your account to manage and keep track of your
+              expenses!
+            </p>
+          </div>
+
+          <form
+            action="submit"
+            method="post"
+            id="container-form"
+            class="contform"
+          >
+            <div class="mail">
+              <i class="fas fa-envelope"></i>
+              <input
+                type="text"
+                name="username"
+                id="name"
+                placeholder="Username"
+                required
+              />
+            </div>
+
+            <div class="mail">
+              <i class="fas fa-envelope"></i>
+              <input
+                type="email"
+                name="email"
+                id="mail"
+                placeholder="Email"
+                required
+              />
+            </div>
+
+            <div class="pass">
+              <i class="fas fa-lock"></i>
+              <input
+                type="password"
+                name="password"
+                id="pass"
+                placeholder="Password"
+                required
+              />
+            </div>
+
+            <div class="action">
+              <input type="submit" name="submit" class="btn" value="Sign up" />
+            </div>
+
+            <div class="footer" style="margin-top: 0px">
+              <a href="../html/login.html">Existing User? Login</a>
+            </div>
+          </form>
+        </div>
+
+        <div class="placeholder__img loginimg"></div>
+      </div>
+    </section>
+    <script src="../js/signup.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
+  </body>
+</html>

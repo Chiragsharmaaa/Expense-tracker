@@ -9,11 +9,12 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         let response = await axios.get('http://localhost:3000/expense/getalldownloadurl', { headers: { 'Authorization': token } });
         if (response.status === 200) {
             showUrls(response.data);
-        }
+        };
     } catch (error) {
         console.log(error);
     };
 });
+
 let report = document.getElementById('reportBtn');
 report.addEventListener('click', async (e) => {
     e.preventDefault();

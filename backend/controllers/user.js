@@ -4,14 +4,14 @@ require('dotenv').config()
 const User = require('../models/user');
 
 function generateAccessToken(id, name, ispremiumuser) {
-    return jwt.sign({ userId:id,name:name, ispremiumuser:ispremiumuser }, process.env.JWT_SECRET);
+    return jwt.sign({ userId: id, name: name, ispremiumuser: ispremiumuser }, process.env.JWT_SECRET);
 };
 
 exports.postSignup = async (req, res, next) => {
     try {
         const { name, email, password } = req.body;
-        const user = await User.findAll({ where: { email } });
-        if (user.length > 0) {
+        const user = await User.findOne({ email: email });
+        if (user) {
             return res.status(550).json({ message: 'user already exists!' });
         };
 
@@ -21,7 +21,6 @@ exports.postSignup = async (req, res, next) => {
             await User.create({ name, email, password: hash, ispremiumuser: false });
             return res.status(201).json({ message: 'user created!' });
         });
-
     } catch (err) {
         res.status(500).json(err);
     };
@@ -29,22 +28,20 @@ exports.postSignup = async (req, res, next) => {
 
 exports.postLogin = async (req, res, next) => {
     try {
-
         const { email, password } = req.body;
-
         if (!email || !password) {
             return res.status(400).json({ message: 'Enter all fields' })
         };
-        const user = await User.findAll({ where: { email } })
-        if (user.length === 0) {
+        const user = await User.findOne({ email });
+        if (!user) {
             return res.status(404).json({ message: 'User not found' })
         };
-        const existingUser = user[0];
+        const existingUser = user;
         bcrypt.compare(password, existingUser.password, (err, result) => {
-            if(err) {
-                return res.status(401).json({message:'User not authorized!'});
+            if (err) {
+                return res.status(401).json({ message: 'User not authorized!' });
             };
-            return res.status(200).json({message:'Successfully Logged-in!', token:generateAccessToken(existingUser.id, existingUser.name, existingUser.ispremiumuser), isPremium: existingUser.ispremiumuser});
+            return res.status(200).json({ message: 'Successfully Logged-in!', token: generateAccessToken(existingUser._id, existingUser.name, existingUser.ispremiumuser), isPremium: existingUser.ispremiumuser });
         });
     } catch (err) {
         return res.status(500).json({ message: err, success: false });

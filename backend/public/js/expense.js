@@ -46,9 +46,13 @@ async function screenLoader(e) {
 async function loadExpenses(page, itemsPerPage) {
   try {
     let response = await axios.post(
-      `http://localhost:3000/expense/${page}`,
-      { itempsperpage: itemsPerPage },
-      { headers: { Authorization: token } }
+      `http://localhost:3000/expense/${page}`, {
+      itempsperpage: itemsPerPage
+    }, {
+      headers: {
+        Authorization: token
+      }
+    }
     );
     if (response.data.data.length === 0) {
       return;
@@ -136,8 +140,11 @@ async function addExpense(e) {
 
     let response = await axios.post(
       "http://localhost:3000/expense/add-expense",
-      expenseDetails,
-      { headers: { Authorization: token } }
+      expenseDetails, {
+      headers: {
+        Authorization: token
+      }
+    }
     );
     if (response.status === 201) {
       displayExpenses(response.data.data);
@@ -169,11 +176,11 @@ function parseJwt(token) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  const token = localStorage.getItem("token");
-  const decodedToken = parseJwt(token);
-  const isPremiumUser = decodedToken.ispremiumuser;
-  if (isPremiumUser) {
-    // document.getElementById('premiumbtn').style.display = 'none';
+  // const token = localStorage.getItem("token");
+  // const decodedToken = parseJwt(token);
+  // const isPremiumUser = decodedToken.ispremiumuser;
+  const user = localStorage.getItem('user');
+  if (user == 'true') {
     document.getElementById("showleaderboardbtn").style.display = "block";
     document.getElementById("generatereport").style.display = "block";
     document.getElementById("messageprem").innerHTML =
@@ -201,7 +208,9 @@ async function removeExpense(id) {
   let token = localStorage.getItem("token");
   try {
     await axios.delete(`http://localhost:3000/expense/delete-expense/${id}`, {
-      headers: { Authorization: token },
+      headers: {
+        Authorization: token
+      },
     });
     removeFromScreen(id);
   } catch (err) {
@@ -220,8 +229,11 @@ document.getElementById("premiumbtn").onclick = async function (e) {
   try {
     const response = await axios.post(
       "http://localhost:3000/payment/premiummembership",
-      x,
-      { headers: { Authorization: token } }
+      x, {
+      headers: {
+        Authorization: token
+      }
+    }
     );
     checkout(response.data);
   } catch (err) {
@@ -240,19 +252,20 @@ function checkout(order) {
       alert("Payment Successful");
       axios
         .post("http://localhost:3000/payment/updatestatus", response, {
-          headers: { Authorization: token },
+          headers: {
+            Authorization: token
+          },
         })
         .then((response) => {
+          console.log(response)
           alert("You are a premium user now!");
           document.getElementById("premiumbtn").style.display = "hidden";
           document.getElementById("showleaderboardbtn").style.display =
             "visible";
           document.getElementById("messageprem").innerHTML =
             "You are a Premium User!";
-          localStorage.setItem("user", response.data.isPremium);
-          localStorage.setItem("token", response.data.token);
-        })
-        .catch((err) => console.log(err));
+          localStorage.setItem("user", 'true');
+        }).catch((err) => console.log(err));
     },
     prefill: {
       name: "Chirag",
@@ -275,6 +288,7 @@ document.getElementById("logout").onclick = function (e) {
   window.location.href = "../html/login.html";
 };
 document.getElementById("showleaderboardbtn").onclick = function (e) {
+  leaderboarddiv.scrollIntoView();
   e.preventDefault();
   getPremiumLeaderBoard();
   leaderboarddiv.innerHTML = "";
@@ -284,9 +298,13 @@ document.getElementById("showleaderboardbtn").onclick = function (e) {
 async function getPremiumLeaderBoard() {
   try {
     const response = await axios.get(
-      "http://localhost:3000/premium/premiumleaderboard",
-      { headers: { Authorization: token } }
+      "http://localhost:3000/premium/premiumleaderboard", {
+      headers: {
+        Authorization: token
+      }
+    }
     );
+    console.log('response', response)
     response.data.data.map((user) => {
       showLeaderboard(user);
     });
@@ -297,8 +315,8 @@ async function getPremiumLeaderBoard() {
 
 function showLeaderboard(user) {
   const child = `<tr>
-    <th scope="row">${user.id + 1}</th>
-    <td>${user.name}</td>
+    <th scope="row">${user.user._id}</th>
+    <td>${user.user.name}</td>
     <td>₹ ${user.totalExpense}</td>
   </tr>`;
 
@@ -310,5 +328,5 @@ document.getElementById("generatereport").onclick = function (e) {
   let user = localStorage.getItem("user");
   if (user == "true") {
     window.location.href = "../html/report.html";
-  }
+  };
 };
