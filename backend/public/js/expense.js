@@ -257,7 +257,7 @@ function checkout(order) {
           },
         })
         .then((response) => {
-          console.log(response)
+          console.log(response);
           alert("You are a premium user now!");
           document.getElementById("premiumbtn").style.display = "hidden";
           document.getElementById("showleaderboardbtn").style.display =

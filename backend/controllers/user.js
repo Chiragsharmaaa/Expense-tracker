@@ -37,9 +37,10 @@ exports.postLogin = async (req, res, next) => {
             return res.status(404).json({ message: 'User not found' })
         };
         const existingUser = user;
+        console.log('existinguser', existingUser)
         bcrypt.compare(password, existingUser.password, (err, result) => {
-            if (err) {
-                return res.status(401).json({ message: 'User not authorized!' });
+            if (!result) {
+                return res.status(401).json({ message: 'User not authorized!', err });
             };
             return res.status(200).json({ message: 'Successfully Logged-in!', token: generateAccessToken(existingUser._id, existingUser.name, existingUser.ispremiumuser), isPremium: existingUser.ispremiumuser });
         });

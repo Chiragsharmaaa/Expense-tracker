@@ -2,6 +2,7 @@ const uuid = require('uuid');
 const sgMail = require('@sendgrid/mail');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
+const BASE_URL = process.env.BASE_URL
 
 const User = require('../models/user');
 const Forgotpassword = require('../models/forgotpassword');
@@ -21,7 +22,7 @@ exports.forgotpassword = async (req, res, next) => {
             from: 'chiragsharma250999@gmail.com', // Change to your verified sender
             subject: 'Reset your password!',
             text: 'Click on the link below to reset password',
-            html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`,
+            html: `<a href="${BASE_URL}/password/resetpassword/${id}">Reset password</a>`,
         };
 
         sgMail.send(msg).then(response => {

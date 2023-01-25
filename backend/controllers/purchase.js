@@ -3,13 +3,6 @@ const Order = require("../models/order");
 const User = require('../models/user');
 require("dotenv").config();
 
-function generateAccessToken(id, name, ispremiumuser) {
-  return jwt.sign(
-    { userId: id, name: name, ispremiumuser: ispremiumuser },
-    process.env.JWT_SECRET
-  );
-}
-
 exports.purchasepremium = (req, res, next) => {
   try {
     var instance = new Razorpay({
@@ -50,9 +43,9 @@ exports.updateTransactionStatus = async (req, res, next) => {
       console.log('user>>>', user)
       user.ispremiumuser = true;
       await user.save();
-      console.log(req.user)
       let updatedUser = await User.findById(req.user._id);
-      console.log('updatedUser', updatedUser)
+      console.log('updatedUser>>', updatedUser)
+
       res.status(200).json({ message: "Successfully saved!" });
     };
   } catch (err) {

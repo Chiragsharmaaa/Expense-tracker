@@ -1,7 +1,6 @@
 const Expense = require("../models/expense");
 const User = require("../models/user");
 const Downloadurl = require("../models/downloadurl");
-const sequelize = require("sequelize");
 const S3Services = require("../services/S3services");
 
 exports.postAddExpense = async (req, res, next) => {
