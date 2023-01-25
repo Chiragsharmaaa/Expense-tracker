@@ -9,7 +9,7 @@ const morgan = require("morgan");
 const mongoose = require('mongoose')
 const path = require("path");
 dotenv.config();
-
+const PORT = process.env.PORT || 3000;
 const userRoutes = require("./routes/user");
 const expenseRoutes = require("./routes/expense");
 const purchaseRoutes = require("./routes/purchase");
@@ -39,8 +39,8 @@ app.use("/password", forgotPasswordRoutes);
 
 mongoose.connect(process.env.CONN_STR).then(() => {
   console.log("Database connected!");
-  app.listen(process.env.PORT, () => {
-    console.log(`Server started at port: ${process.env.PORT}`);
+  app.listen(PORT, () => {
+    console.log(`Server started at port: ${PORT}`);
   });
 }).catch((err) => {
   console.log("Error: ", err);
